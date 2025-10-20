@@ -54,9 +54,8 @@ function endQuiz() {
   document.getElementById("quiz-container").style.display = "none";
   scoreContainer.style.display = "block";
   scoreEl.textContent = score;
-
-  // Save to localStorage
-  localStorage.setItem("lastQuizScore", score);
+  alert(`Quiz Finished! Your Score: ${score} / ${questions.length}`);
+  saveGame2Score(score);
 }
 
 restartBtn.addEventListener("click", () => {
@@ -120,6 +119,14 @@ function deleteQuestion(index) {
   questions.splice(index, 1);
   saveQuestions();
   renderQuestionList();
+}
+
+function saveGame2Score(score) {
+  const scores = JSON.parse(localStorage.getItem("scores")) || [];
+  const existing = scores.find(s => s.name === "Quiz Game");
+  if (existing) existing.score = score;
+  else scores.push({ name: "Quiz Game", score });
+  localStorage.setItem("scores", JSON.stringify(scores));
 }
 
 renderQuestionList();

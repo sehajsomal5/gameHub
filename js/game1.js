@@ -1,91 +1,97 @@
 const board = document.getElementById("board");
-const message = document.getElementById("message");
+const messageEl = document.getElementById("message");
 const resetBtn = document.getElementById("resetBtn");
-
 const xWinsEl = document.getElementById("xWins");
 const oWinsEl = document.getElementById("oWins");
 const drawsEl = document.getElementById("draws");
 
-let cells = Array(9).fill(null);
+let boardState = ["", "", "", "", "", "", "", "", ""];
 let currentPlayer = "X";
-let isGameActive = true;
+let gameOver = false;
+let xWins = 0;
+let oWins = 0;
+let draws = 0;
 
-const scores = JSON.parse(localStorage.getItem("tictactoeScores")) || {
-  X: 0,
-  O: 0,
-  Draws: 0,
-};
-
-xWinsEl.textContent = scores.X;
-oWinsEl.textContent = scores.O;
-drawsEl.textContent = scores.Draws;
-
-// Create board
-for (let i = 0; i < 9; i++) {
-  const cell = document.createElement("div");
-  cell.classList.add("cell");
-  cell.dataset.index = i;
-  board.appendChild(cell);
-
-  cell.addEventListener("click", () => makeMove(i));
+// Initialize scoreboard from localStorage
+const savedScores = JSON.parse(localStorage.getItem("scores")) || [];
+const ticScore = savedScores.find(s => s.name === "Tic Tac Toe");
+if(ticScore) {
+  const parts = ticScore.score.split("|");
+  xWins = parseInt(parts[0].split(":")[1].trim());
+  oWins = parseInt(parts[1].split(":")[1].trim());
+  draws = parseInt(parts[2].split(":")[1].trim());
 }
+updateScoreboard();
 
-function makeMove(index) {
-  if (!isGameActive || cells[index]) return;
-
-  cells[index] = currentPlayer;
-  document.querySelector(`[data-index='${index}']`).textContent = currentPlayer;
-
-  if (checkWinner()) {
-    message.textContent = `🎉 Player ${currentPlayer} Wins!`;
-    scores[currentPlayer]++;
-    updateScores();
-    isGameActive = false;
-    return;
-  }
-
-  if (cells.every((c) => c)) {
-    message.textContent = "😐 It's a Draw!";
-    scores.Draws++;
-    updateScores();
-    isGameActive = false;
-    return;
-  }
-
-  currentPlayer = currentPlayer === "X" ? "O" : "X";
-  message.textContent = `Player ${currentPlayer}'s turn`;
-}
-
-function checkWinner() {
-  const combos = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
-
-  return combos.some(([a, b, c]) => {
-    return cells[a] && cells[a] === cells[b] && cells[a] === cells[c];
+function createBoard() {
+  board.innerHTML = "";
+  boardState.forEach((cell, index) => {
+    const div = document.createElement("div");
+    div.classList.add("cell");
+    div.textContent = cell;
+    div.addEventListener("click", () => makeMove(index));
+    board.appendChild(div);
   });
 }
 
-function updateScores() {
-  localStorage.setItem("tictactoeScores", JSON.stringify(scores));
-  xWinsEl.textContent = scores.X;
-  oWinsEl.textContent = scores.O;
-  drawsEl.textContent = scores.Draws;
+function makeMove(index) {
+  if(boardState[index] !== "" || gameOver) return;
+  boardState[index] = currentPlayer;
+  createBoard();
+  if(checkWinner(currentPlayer)) endGame(currentPlayer);
+  else if(boardState.every(c => c !== "")) endGame("Draw");
+  else {
+    currentPlayer = currentPlayer === "X" ? "O" : "X";
+    messageEl.textContent = `Player ${currentPlayer}'s turn`;
+  }
 }
 
-resetBtn.addEventListener("click", resetGame);
+function checkWinner(player) {
+  const winCombos = [
+    [0,1,2],[3,4,5],[6,7,8],
+    [0,3,6],[1,4,7],[2,5,8],
+    [0,4,8],[2,4,6]
+  ];
+  return winCombos.some(combo => combo.every(i => boardState[i] === player));
+}
 
-function resetGame() {
-  cells.fill(null);
-  document.querySelectorAll(".cell").forEach((c) => (c.textContent = ""));
+function endGame(result) {
+  gameOver = true;
+  if(result === "X") {
+    messageEl.textContent = "Player X won!";
+    xWins++;
+  } else if(result === "O") {
+    messageEl.textContent = "Player O won!";
+    oWins++;
+  } else {
+    messageEl.textContent = "It's a draw!";
+    draws++;
+  }
+  updateScoreboard();
+  saveTicTacToeScore();
+}
+
+function updateScoreboard() {
+  xWinsEl.textContent = xWins;
+  oWinsEl.textContent = oWins;
+  drawsEl.textContent = draws;
+}
+
+function saveTicTacToeScore() {
+  const scores = JSON.parse(localStorage.getItem("scores")) || [];
+  const scoreText = `X:${xWins} | O:${oWins} | Draws:${draws}`;
+  const existing = scores.find(s => s.name === "Tic Tac Toe");
+  if(existing) existing.score = scoreText;
+  else scores.push({ name: "Tic Tac Toe", score: scoreText });
+  localStorage.setItem("scores", JSON.stringify(scores));
+}
+
+resetBtn.addEventListener("click", () => {
+  boardState = ["", "", "", "", "", "", "", "", ""];
   currentPlayer = "X";
-  isGameActive = true;
-  message.textContent = `Player ${currentPlayer}'s turn`;
-}
+  gameOver = false;
+  messageEl.textContent = "Player X's turn";
+  createBoard();
+});
+
+createBoard();
