@@ -1,32 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Game Hub</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎮 GameHub</title>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="game1.html">Tic Tac Toe</a></li>
+      <li><a href="game2.html">Memory Game</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+    </ul>
+  </nav>
+
   <header>
-    <h1>🎮 Welcome to Game Hub</h1>
+    <h1>🎯 Welcome to GameHub</h1>
+    <p>Your mini arcade of fun games!</p>
   </header>
 
-  <main>
-    <section class="games">
-      <div class="game-card">
-        <h3>Tic Tac Toe</h3>
-        <a href="game1.html" class="play-btn">Play Now</a>
-      </div>
-      <div class="game-card">
-        <h3>Quiz Game</h3>
-        <a href="game2.html" class="play-btn">Play Now</a>
-      </div>
-    </section>
-  </main>
+  <main class="game-grid">
+    <div class="game-card">
+      <h2>Tic Tac Toe</h2>
+      <a href="game1.html" class="btn">Play Now</a>
+    </div>
 
+    <div class="game-card">
+      <h2>Memory Match</h2>
+      <a href="game2.html" class="btn">Play Now</a>
+    </div>
+
+    <div class="game-card">
+      <h2>Dashboard</h2>
+      <a href="dashboard.html" class="btn">View Scores</a>
+    </div>
+  </main>
+  
   <footer>
-    <a href="dashboard.html">📊 View Dashboard</a>
-    <p>&copy; 2025 Game Hub</p>
+    <p>© 2025 GameHub by Sehajpreet Kaur</p>
   </footer>
 
   <script src="js/main.js"></script>
