@@ -1,45 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tic Tac Toe</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tic Tac Toe - GameHub</title>
   <link rel="stylesheet" href="css/game1.css" />
 </head>
 <body>
-  <!-- Navbar -->
-  <nav class="navbar">
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="game1.html">Tic Tac Toe</a></li>
-      <li><a href="game2.html">Memory Game</a></li>
-      <li><a href="dashboard.html">Dashboard</a></li>
-    </ul>
-  </nav>
 
-  <header>
+<!-- NAV (same as site) -->
+<div class="navbar">
+  <div class="nav-left">
+    <a href="index.html">GameHub</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="game1.html">Tic Tac Toe</a>
+    <a href="game2.html">Memory Game</a>
+  </div>
+
+  <div class="nav-right">
+    <span id="navUser">Hi, Guest</span>
+  </div>
+</div>
+
+<main class="page-wrap">
+  <header class="page-head">
     <h1>❌ Tic Tac Toe ⭕</h1>
+    <p class="muted">Play vs friend on same device</p>
   </header>
 
-  <main>
-    <div class="board" id="board"></div>
+  <section class="game-area">
+    <div id="board" class="board" aria-label="tic tac toe board"></div>
 
-    <div class="status">
+    <div class="controls">
       <p id="message">Player X's turn</p>
-      <button id="resetBtn" class="btn">Reset Game</button>
+      <div class="btn-row">
+        <button id="resetBtn" class="btn">Reset board</button>
+        <button id="clearScores" class="btn alt">Clear scores</button>
+      </div>
     </div>
 
     <div class="scoreboard">
-      <p>🏆 X Wins: <span id="xWins">0</span></p>
-      <p>🏆 O Wins: <span id="oWins">0</span></p>
-      <p>🤝 Draws: <span id="draws">0</span></p>
+      <div>X Wins: <strong id="xWins">0</strong></div>
+      <div>O Wins: <strong id="oWins">0</strong></div>
+      <div>Draws: <strong id="draws">0</strong></div>
     </div>
-  </main>
+  </section>
+</main>
 
-  <footer>
-    <p>© 2025 GameHub</p>
-  </footer>
+<footer>
+  <p>© 2025 GameHub</p>
+</footer>
 
-  <script src="js/game1.js"></script>
+<script src="js/game1.js"></script>
 </body>
 </html>

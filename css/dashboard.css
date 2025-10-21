@@ -1,71 +1,71 @@
-body {
-  background: linear-gradient(120deg, #1f4037, #99f2c8);
-  font-family: 'Poppins', sans-serif;
-  text-align: center;
-  padding: 30px;
-  color: #fff;
+body{
+  font-family: Arial, sans-serif;
+  background:#eef1f5;
+  padding:20px;
+  min-height:100vh;
 }
 
-table {
-  margin: 20px auto;
-  border-collapse: collapse;
-  width: 60%;
-  background: rgba(255,255,255,0.1);
-  border-radius: 10px;
-  overflow: hidden;
+h2{
+  text-align:center;
 }
 
-th, td {
-  padding: 12px;
-  border-bottom: 1px solid rgba(255,255,255,0.2);
-}
-
-.btn {
-  background: #fff;
-  color: #333;
-  padding: 10px 15px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.danger {
-  background: #ff4b2b;
-  color: white;
-}
-
-.danger:hover {
-  background: #ff416c;
-}
-/* Navbar styling */
 .navbar {
-  background: #333;
-  padding: 10px 0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.navbar ul {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  margin: 0;
-  padding: 0;
+  background:#2c2c2c;
+  padding:8px 12px;
+  color:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
 }
 
 .navbar a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  padding: 5px 10px;
-  border-radius: 5px;
+  color:white;
+  margin-right:10px;
+  text-decoration:none;
+  font-size:15px;
 }
 
-.navbar a:hover,
-.navbar a.active {
-  background: #00c6ff;
-  color: #333;
+.navbar a:hover {
+  text-decoration:underline;
+}
+
+.nav-right {
+  font-size:14px;
+  opacity:0.85;
+}
+
+/* table looks decent */
+table{
+  width:80%;
+  margin:0 auto;
+  border-collapse:collapse;
+  background:white;
+  box-shadow:0 0 5px rgba(0,0,0,.2);
+}
+
+td, th{
+  padding:8px;
+  border:1px solid #ccc;
+}
+
+button{
+  cursor:pointer;
+  padding:4px 8px;
+  margin:2px;
+  border:1px solid #999;
+  background:#e9e9e9;
+}
+button:hover{
+  background:#dcdcdc;
+}
+
+#controls{
+  text-align:center;
+  margin:10px;
+}
+
+input{
+  padding:5px;
+  margin:5px;
 }

@@ -1,89 +1,98 @@
-body {
-  background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
-  color: #fff;
-  font-family: 'Poppins', sans-serif;
-  text-align: center;
-  padding: 20px;
-  min-height: 100vh;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
 }
 
-
-main {
-  flex: 1; /* this makes main take remaining space, pushing footer down */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start; /* or center if you want vertical center */
-  padding: 20px;
+body{
+min-height:100vh;
+display:flex;
+flex-direction:column;
+background:#f4f4f8;
 }
 
-/* Navbar styling */
+/* navbar */
+.navbar{
+background:#222;
+color:white;
+padding:12px 22px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+.navbar ul{
+display:flex;
+gap:20px;
+list-style:none;
+}
+.navbar a{
+color:white;
+text-decoration:none;
+font-size:15px;
+}
+.logo{color:#00eaff}
+
+/* container */
+.container{
+flex:1;
+padding:50px;
+text-align:center;
+}
+
+.games-box{
+display:flex;
+gap:20px;
+justify-content:center;
+margin-top:40px;
+}
+
+.game-card{
+width:220px;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 8px rgba(0,0,0,.1);
+}
+.game-card button{
+padding:8px 16px;
+margin-top:10px;
+cursor:pointer;
+border:none;
+border-radius:6px;
+background:#0099ff;
+color:white;
+}
+
+footer{
+background:#111;
+color:white;
+padding:10px;
+text-align:center;
+margin-top:auto;
+}
 .navbar {
-  background: #333;
-  padding: 10px 0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.navbar ul {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  margin: 0;
-  padding: 0;
+  background:#2c2c2c;
+  padding:8px 12px;
+  color:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
 }
 
 .navbar a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  padding: 5px 10px;
-  border-radius: 5px;
+  color:white;
+  margin-right:10px;
+  text-decoration:none;
+  font-size:15px;
 }
 
-.navbar a:hover,
-.navbar a.active {
-  background: #00c6ff;
-  color: #333;
+.navbar a:hover {
+  text-decoration:underline;
 }
 
-
-.game-grid {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  margin-top: 40px;
-  flex-wrap: wrap;
-}
-
-.game-card {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
-  padding: 30px;
-  width: 200px;
-  transition: transform 0.3s ease;
-}
-
-.game-card:hover {
-  transform: scale(1.05);
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.btn {
-  display: inline-block;
-  background: #00c6ff;
-  color: #fff;
-  text-decoration: none;
-  padding: 10px 15px;
-  border-radius: 8px;
-  margin-top: 10px;
-  transition: 0.3s;
-}
-
-.btn:hover {
-  background: #0072ff;
+.nav-right {
+  font-size:14px;
+  opacity:0.85;
 }

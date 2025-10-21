@@ -1,80 +1,132 @@
-const board = document.getElementById("board");
-const messageEl = document.getElementById("message");
-const resetBtn = document.getElementById("resetBtn");
-const xWinsEl = document.getElementById("xWins");
-const oWinsEl = document.getElementById("oWins");
-const drawsEl = document.getElementById("draws");
+// human-style js for tic tac toe
+// a few logs, not too neat - that's intentional :)
 
-let boardState = ["", "", "", "", "", "", "", "", ""];
-let currentPlayer = "X";
-let gameOver = false;
-let xWins = 0, oWins = 0, draws = 0;
+// DOM refs
+const boardEl = document.getElementById('board');
+const msgEl = document.getElementById('message');
+const resetBtn = document.getElementById('resetBtn');
+const clearScoresBtn = document.getElementById('clearScores');
+const xWinsEl = document.getElementById('xWins');
+const oWinsEl = document.getElementById('oWins');
+const drawsEl = document.getElementById('draws');
 
-// Load previous scores
-const saved = JSON.parse(localStorage.getItem("scores")) || [];
-const tic = saved.find(s => s.name === "Tic Tac Toe");
-if (tic) {
-  const [x, o, d] = tic.score.split("|").map(v => v.split(":")[1].trim());
-  xWins = +x; oWins = +o; draws = +d;
+let state = ["","","","","","","","",""]; // 0..8
+let current = "X";
+let done = false;
+
+// rough load from storage - simple format storing object "Tic Tac Toe" as "X:1|O:0|D:2"
+function loadScores(){
+  let list = JSON.parse(localStorage.getItem('scores') || '[]');
+  let rec = list.find(r=>r.name==='Tic Tac Toe');
+  if(rec && rec.score){
+    try{
+      
+      let parts = rec.score.split('|').map(s=>s.trim());
+      let x = parts[0].split(':')[1] || 0;
+      let o = parts[1].split(':')[1] || 0;
+      let d = parts[2].split(':')[1] || 0;
+      xWinsEl.textContent = parseInt(x);
+      oWinsEl.textContent = parseInt(o);
+      drawsEl.textContent = parseInt(d);
+    }catch(e){
+      console.log("score parse error", e);
+    }
+  }
 }
-updateScoreboard();
+loadScores();
 
-function createBoard() {
-  board.innerHTML = "";
-  boardState.forEach((val, i) => {
-    const cell = document.createElement("div");
-    cell.classList.add("cell");
-    cell.textContent = val;
-    cell.addEventListener("click", () => makeMove(i));
-    board.appendChild(cell);
-  });
+// render board cells
+function render(){
+  boardEl.innerHTML = '';
+  for(let i=0;i<9;i++){
+    let div = document.createElement('div');
+    div.className = 'cell';
+    div.dataset.index = i;
+    div.textContent = state[i];
+    div.addEventListener('click', ()=>onCell(i));
+    boardEl.appendChild(div);
+  }
+  msgEl.textContent = done ? "Round finished" : `Player ${current}'s turn`;
 }
-createBoard();
 
-function makeMove(i) {
-  if (boardState[i] || gameOver) return;
-  boardState[i] = currentPlayer;
-  createBoard();
-  if (checkWinner(currentPlayer)) endGame(currentPlayer);
-  else if (boardState.every(c => c)) endGame("Draw");
-  else {
-    currentPlayer = currentPlayer === "X" ? "O" : "X";
-    messageEl.textContent = `Player ${currentPlayer}'s turn`;
+// click handler
+function onCell(i){
+  console.log("click on", i, "state", state[i]);
+  if(done) return;            // game finished
+  if(state[i]) return;        // already filled
+  state[i] = current;
+  // quick check
+  if(checkWin(current)){
+    done = true;
+    msgEl.textContent = `Player ${current} wins!`;
+    updateAndSave(current);
+  } else if(state.every(s=>s)){
+    done = true;
+    msgEl.textContent = "It's a draw!";
+    updateAndSave("D");
+  } else {
+    current = (current === "X") ? "O" : "X";
+    msgEl.textContent = `Player ${current}'s turn`;
+  }
+  render();
+}
+
+// win check
+function checkWin(p){
+  const combos = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  for(let j=0;j<combos.length;j++){
+    let [a,b,c] = combos[j];
+    if(state[a]===p && state[b]===p && state[c]===p) return true;
+  }
+  return false;
+}
+
+// update scores and save
+function updateAndSave(res){
+  // read old
+  let list = JSON.parse(localStorage.getItem('scores') || '[]');
+  let rec = list.find(r=>r.name==='Tic Tac Toe');
+  let x = parseInt(xWinsEl.textContent) || 0;
+  let o = parseInt(oWinsEl.textContent) || 0;
+  let d = parseInt(drawsEl.textContent) || 0;
+
+  if(res === "X") x++;
+  else if(res === "O") o++;
+  else d++;
+
+  // reflect in UI
+  xWinsEl.textContent = x; oWinsEl.textContent = o; drawsEl.textContent = d;
+
+  // save back in the student-friendly string format
+  const scoreStr = `X:${x} | O:${o} | Draws:${d}`;
+  if(rec) rec.score = scoreStr;
+  else list.push({ name: 'Tic Tac Toe', score: scoreStr });
+  try{
+    localStorage.setItem('scores', JSON.stringify(list));
+    console.log("scores saved", scoreStr);
+  }catch(e){
+    console.log("save error", e);
   }
 }
 
-function checkWinner(p) {
-  const combos = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-  return combos.some(c => c.every(i => boardState[i] === p));
-}
+// reset board
+resetBtn.addEventListener('click', ()=>{
+  state = ["","","","","","","","",""];
+  current = "X";
+  done = false;
+  msgEl.textContent = `Player X's turn`;
+  render();
+});
 
-function endGame(result) {
-  gameOver = true;
-  if (result === "X") { xWins++; messageEl.textContent = "🎉 Player X Wins!"; }
-  else if (result === "O") { oWins++; messageEl.textContent = "🎉 Player O Wins!"; }
-  else { draws++; messageEl.textContent = "🤝 It's a Draw!"; }
-  updateScoreboard();
-  saveScore();
-}
+// clear stored score 
+clearScoresBtn.addEventListener('click', ()=>{
+  if(!confirm("Clear Tic Tac Toe scores?")) return;
+  let list = JSON.parse(localStorage.getItem('scores') || '[]');
+  list = list.filter(r=>r.name!=='Tic Tac Toe');
+  localStorage.setItem('scores', JSON.stringify(list));
+  xWinsEl.textContent = '0'; oWinsEl.textContent='0'; drawsEl.textContent='0';
+  console.log("cleared tic tac toe scores");
+});
 
-function saveScore() {
-  const scores = JSON.parse(localStorage.getItem("scores")) || [];
-  const val = `X:${xWins} | O:${oWins} | Draws:${draws}`;
-  const exist = scores.find(s => s.name === "Tic Tac Toe");
-  if (exist) exist.score = val; else scores.push({ name: "Tic Tac Toe", score: val });
-  localStorage.setItem("scores", JSON.stringify(scores));
-}
-
-function updateScoreboard() {
-  xWinsEl.textContent = xWins;
-  oWinsEl.textContent = oWins;
-  drawsEl.textContent = draws;
-}
-
-resetBtn.onclick = () => {
-  boardState = Array(9).fill("");
-  currentPlayer = "X";
-  gameOver = false;
-  messageEl.textContent = "Player X's turn";
-  createBoard();
-};
+// initial render
+render();

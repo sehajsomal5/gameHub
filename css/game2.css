@@ -1,77 +1,68 @@
-body {
-  background: linear-gradient(135deg, #11998e, #38ef7d);
-  color: white;
-  text-align: center;
-  font-family: 'Poppins', sans-serif;
-}
-/* Navbar styling */
-.navbar {
-  background: #333;
-  padding: 10px 0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+
+
+body{
+  font-family:Arial;
+  background:#f2f2f7;
+  min-height:100vh;
 }
 
-.navbar ul {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  margin: 0;
-  padding: 0;
+.board{
+  display:grid;
+  grid-template-columns:repeat(4, 90px);
+  gap:10px;
+  justify-content:center;
+  margin-top:20px;
+}
+
+.card{
+  width:90px;
+  height:90px;
+  background:#222;
+  color:white;
+  font-size:28px;
+  border-radius:6px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:0.2s;
+}
+
+.card.open, .card.matched{
+  background:#00acff;
+}
+
+.card.matched{
+  background:#19c57d;
+}
+
+#status{
+  margin:8px;
+  font-size:18px;
+}
+.navbar {
+  background:#2c2c2c;
+  padding:8px 12px;
+  color:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
 }
 
 .navbar a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  padding: 5px 10px;
-  border-radius: 5px;
+  color:white;
+  margin-right:10px;
+  text-decoration:none;
+  font-size:15px;
 }
 
-.navbar a:hover,
-.navbar a.active {
-  background: #00c6ff;
-  color: #333;
+.navbar a:hover {
+  text-decoration:underline;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, 80px);
-  gap: 10px;
-  justify-content: center;
-  margin: 30px auto;
+.nav-right {
+  font-size:14px;
+  opacity:0.85;
 }
 
-.card {
-  background: white;
-  color: #333;
-  font-size: 2em;
-  border-radius: 10px;
-  cursor: pointer;
-  width: 80px;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: 0.3s;
-}
-
-.card:hover {
-  transform: scale(1.1);
-}
-
-.matched {
-  visibility: hidden;
-}
-
-.btn {
-  background: #fff;
-  color: #333;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-}

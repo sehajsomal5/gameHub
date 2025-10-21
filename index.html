@@ -1,48 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🎮 GameHub</title>
-  <link rel="stylesheet" href="css/style.css" />
+    <title>GameHub</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <!-- Navbar -->
-  <nav class="navbar">
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="game1.html">Tic Tac Toe</a></li>
-      <li><a href="game2.html">Memory Game</a></li>
-      <li><a href="dashboard.html">Dashboard</a></li>
-    </ul>
-  </nav>
 
-  <header>
-    <h1>🎯 Welcome to GameHub</h1>
-    <p>Your mini arcade of fun games!</p>
-  </header>
+<!-- NAV BAR -->
+<div class="navbar">
+  <div class="nav-left">
+    <a href="index.html">GameHub</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="game1.html">Tic Tac Toe</a>
+    <a href="game2.html">Memory Game</a>
+  </div>
 
-  <main class="game-grid">
-    <div class="game-card">
-      <h2>Tic Tac Toe</h2>
-      <a href="game1.html" class="btn">Play Now</a>
+  <div class="nav-right">
+    <span id="navUser">Hi, Guest</span>
+  </div>
+</div>
+
+
+<div class="container">
+    <h1> Game Hub</h1>
+    <p>Play games & track your scores</p>
+
+    <div class="games-box">
+        <div class="game-card">
+            <h3>Tic Tac Toe</h3>
+            <button onclick="location.href='game1.html'">Play</button>
+        </div>
+
+        <div class="game-card">
+            <h3>Memory Game</h3>
+            <button onclick="location.href='game2.html'">Play</button>
+        </div>
     </div>
+</div>
 
-    <div class="game-card">
-      <h2>Memory Match</h2>
-      <a href="game2.html" class="btn">Play Now</a>
-    </div>
+<footer>
+    <p>© 2025 GameHub Project</p>
+</footer>
 
-    <div class="game-card">
-      <h2>Dashboard</h2>
-      <a href="dashboard.html" class="btn">View Scores</a>
-    </div>
-  </main>
-  
-  <footer>
-    <p>© 2025 GameHub by Sehajpreet Kaur</p>
-  </footer>
-
-  <script src="js/main.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>
